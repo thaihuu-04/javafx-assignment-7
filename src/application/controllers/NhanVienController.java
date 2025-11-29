@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class NhanVienController {
 
@@ -20,6 +21,7 @@ public class NhanVienController {
 
     @FXML private TextField txtTen, txtEmail, txtTim;
     @FXML private ComboBox<String> cboChucVu;
+    @FXML private ComboBox<String> cboLocChucVu;
 
     private NhanVienDAO dao = new NhanVienDAO();
 
@@ -31,6 +33,7 @@ public class NhanVienController {
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
 
         cboChucVu.setItems(FXCollections.observableArrayList("Lập trình viên","Tester","PM","Designer"));
+        cboLocChucVu.setItems(FXCollections.observableArrayList("Lập trình viên","Tester","PM","Designer"));
 
         load();
     }
@@ -89,5 +92,31 @@ public class NhanVienController {
         txtTen.setText(sel.getHoTen());
         cboChucVu.setValue(sel.getChucVu());
         txtEmail.setText(sel.getEmail());
+    }
+
+    @FXML
+    private void filter() {
+        String chucVu = cboLocChucVu.getValue();
+        if (chucVu == null || chucVu.isEmpty()) {
+            load();
+            return;
+        }
+        
+        List<NhanVien> allData = dao.getAll();
+        List<NhanVien> filtered = new ArrayList<>();
+        
+        for (NhanVien nv : allData) {
+            if (nv.getChucVu().equals(chucVu)) {
+                filtered.add(nv);
+            }
+        }
+        
+        tblNV.setItems(FXCollections.observableArrayList(filtered));
+    }
+
+    @FXML
+    private void clearFilter() {
+        cboLocChucVu.setValue(null);
+        load();
     }
 }

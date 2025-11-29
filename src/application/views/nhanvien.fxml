@@ -7,17 +7,29 @@
             fx:controller="application.controllers.NhanVienController">
 
     <top>
-        <HBox spacing="10">
+        <VBox spacing="10">
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10" />
             </padding>
-            <TextField fx:id="txtTen" promptText="Tên nhân viên" />
-            <ComboBox fx:id="cboChucVu" promptText="Chức vụ" />
-            <TextField fx:id="txtEmail" promptText="Email" />
-            <Button text="Thêm" onAction="#add" />
-            <Button text="Sửa" onAction="#update" />
-            <Button text="Xóa" onAction="#delete" />
-        </HBox>
+            <HBox spacing="10">
+                <TextField fx:id="txtTen" promptText="Tên nhân viên" />
+                <ComboBox fx:id="cboChucVu" promptText="Chức vụ" />
+                <TextField fx:id="txtEmail" promptText="Email" />
+                <Button text="Thêm" onAction="#add" />
+                <Button text="Sửa" onAction="#update" />
+                <Button text="Xóa" onAction="#delete" />
+            </HBox>
+            <HBox spacing="10" style="-fx-border-color: #e0e0e0; -fx-border-width: 1 0 0 0; -fx-padding: 10 0 0 0;">
+                <padding>
+                    <Insets left="0" />
+                </padding>
+                <Label text="Lọc theo:" style="-fx-font-weight: bold;" />
+                <ComboBox fx:id="cboLocChucVu" promptText="-- Chức vụ --" prefWidth="150" />
+                <Button text="Lọc" onAction="#filter" />
+                <Button text="Xóa lọc" onAction="#clearFilter" />
+                <Region HBox.hgrow="ALWAYS" />
+            </HBox>
+        </VBox>
     </top>
 
     <center>
