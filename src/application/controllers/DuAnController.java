@@ -139,6 +139,14 @@ public class DuAnController {
     @FXML
     private void onTableClick() {
         DuAn sel = tableDuAn.getSelectionModel().getSelectedItem();
+        
+        // If clicking on the same row that's already selected, deselect it
+        if (selectedDuAn != null && sel != null && selectedDuAn.getMaDA() == sel.getMaDA()) {
+            tableDuAn.getSelectionModel().clearSelection();
+            selectedDuAn = null;
+            return;
+        }
+        
         if (sel == null) return;
         
         selectedDuAn = sel;
