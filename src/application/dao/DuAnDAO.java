@@ -71,11 +71,36 @@ public class DuAnDAO {
     }
 
     public boolean delete(int maDA) {
-        String sql = "DELETE FROM DuAn WHERE MaDA=?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, maDA);
-            return ps.executeUpdate() > 0;
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            conn.setAutoCommit(false);
+            
+            // Xóa công việc liên quan trước
+            String sqlCV = "DELETE FROM CongViec WHERE MaDA=?";
+            try (PreparedStatement ps = conn.prepareStatement(sqlCV)) {
+                ps.setInt(1, maDA);
+                ps.executeUpdate();
+            }
+            
+            // Xóa phân công liên quan
+            String sqlPC = "DELETE FROM PhanCong WHERE MaDA=?";
+            try (PreparedStatement ps = conn.prepareStatement(sqlPC)) {
+                ps.setInt(1, maDA);
+                ps.executeUpdate();
+            }
+            
+            // Xóa dự án
+            String sql = "DELETE FROM DuAn WHERE MaDA=?";
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, maDA);
+                int result = ps.executeUpdate();
+                if (result > 0) {
+                    conn.commit();
+                    return true;
+                } else {
+                    conn.rollback();
+                    return false;
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
