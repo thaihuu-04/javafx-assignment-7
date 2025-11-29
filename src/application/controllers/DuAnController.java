@@ -137,6 +137,12 @@ public class DuAnController {
     }
 
     @FXML
+    private void clearSearch() {
+        txtTim.clear();
+        loadData();
+    }
+
+    @FXML
     private void onTableClick() {
         DuAn sel = tableDuAn.getSelectionModel().getSelectedItem();
         

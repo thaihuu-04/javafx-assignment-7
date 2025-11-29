@@ -36,12 +36,14 @@
     </center>
 
     <bottom>
-        <HBox spacing="10" alignment="CENTER_RIGHT">
+        <HBox spacing="10" alignment="CENTER" style="-fx-border-color: #cccccc; -fx-border-width: 1 0 0 0;">
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10" />
             </padding>
-            <TextField fx:id="txtTimKiem" promptText="Tìm kiếm..." />
-            <Button text="Tìm" onAction="#search" />
+            <Label text="Tìm kiếm:" />
+            <TextField fx:id="txtTim" promptText="Nhập tên dự án..." HBox.hgrow="ALWAYS" />
+            <Button text="Tìm" onAction="#search" prefWidth="80" />
+            <Button text="Xóa" onAction="#clearSearch" prefWidth="80" />
         </HBox>
     </bottom>
 
