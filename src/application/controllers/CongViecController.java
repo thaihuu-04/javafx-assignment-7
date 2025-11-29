@@ -12,7 +12,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class CongViecController {
@@ -46,6 +45,9 @@ public class CongViecController {
         cboDuAn.setItems(FXCollections.observableArrayList(duAnDAO.getAll()));
         cboNhanVien.setItems(FXCollections.observableArrayList(nhanVienDAO.getAll()));
 
+        // Add listener to cboTrangThai to automatically update progress
+        cboTrangThai.setOnAction(event -> updateProgressByStatus());
+
         loadAll();
     }
 
@@ -75,8 +77,18 @@ public class CongViecController {
             cv.setTenCV(txtTenCV.getText());
             cv.setNgayBatDau(dpBD.getValue());
             cv.setNgayKetThuc(dpKT.getValue());
-            cv.setTienDo((int)sliderTienDo.getValue());
             cv.setTrangThai(cboTrangThai.getValue());
+            
+            // Auto-set progress based on status
+            if ("Chưa bắt đầu".equals(cboTrangThai.getValue())) {
+                cv.setTienDo(0);
+                sliderTienDo.setValue(0);
+            } else if ("Hoàn thành".equals(cboTrangThai.getValue())) {
+                cv.setTienDo(100);
+                sliderTienDo.setValue(100);
+            } else {
+                cv.setTienDo((int)sliderTienDo.getValue());
+            }
 
             if (congViecDAO.insert(cv)) {
                 AlertUtil.info("Thêm", "Đã thêm công việc");
@@ -96,9 +108,19 @@ public class CongViecController {
             sel.setTenCV(txtTenCV.getText());
             sel.setNgayBatDau(dpBD.getValue());
             sel.setNgayKetThuc(dpKT.getValue());
-            sel.setTienDo((int)sliderTienDo.getValue());
             sel.setTrangThai(cboTrangThai.getValue());
             sel.setMaNV(cboNhanVien.getValue().getMaNV());
+
+            // Auto-set progress based on status
+            if ("Chưa bắt đầu".equals(cboTrangThai.getValue())) {
+                sel.setTienDo(0);
+                sliderTienDo.setValue(0);
+            } else if ("Hoàn thành".equals(cboTrangThai.getValue())) {
+                sel.setTienDo(100);
+                sliderTienDo.setValue(100);
+            } else {
+                sel.setTienDo((int)sliderTienDo.getValue());
+            }
 
             if (congViecDAO.update(sel)) {
                 AlertUtil.info("Cập nhật", "Đã cập nhật");
@@ -139,5 +161,16 @@ public class CongViecController {
         nhanVienDAO.getAll().stream()
             .filter(n->n.getMaNV()==sel.getMaNV())
             .findFirst().ifPresent(n->cboNhanVien.setValue(n));
+    }
+
+    private void updateProgressByStatus() {
+        String status = cboTrangThai.getValue();
+        if (status == null) return;
+        
+        if ("Chưa bắt đầu".equals(status)) {
+            sliderTienDo.setValue(0);
+        } else if ("Hoàn thành".equals(status)) {
+            sliderTienDo.setValue(100);
+        }
     }
 }
