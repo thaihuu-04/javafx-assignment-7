@@ -7,29 +7,103 @@
             fx:controller="application.controllers.ThongKeController">
 
     <top>
-        <HBox spacing="20" alignment="CENTER" style="-fx-padding: 20;">
-            <Label fx:id="lblTongDuAn" text="Tổng dự án: 0" style="-fx-font-size: 16px;" />
-            <Label fx:id="lblTongNhanVien" text="Tổng nhân viên: 0" style="-fx-font-size: 16px;" />
-            <Label fx:id="lblTongCongViec" text="Tổng công việc: 0" style="-fx-font-size: 16px;" />
-            <Label fx:id="lblTongPhanCong" text="Tổng phân công: 0" style="-fx-font-size: 16px;" />
-        </HBox>
+        <VBox spacing="10" style="-fx-padding: 10;">
+            <HBox spacing="20" alignment="CENTER" style="-fx-padding: 10;">
+                <Label fx:id="lblTongDuAn" text="Tổng dự án: 0" style="-fx-font-size: 16px;" />
+                <Label fx:id="lblTongNhanVien" text="Tổng nhân viên: 0" style="-fx-font-size: 16px;" />
+                <Label fx:id="lblTongCongViec" text="Tổng công việc: 0" style="-fx-font-size: 16px;" />
+                <Label fx:id="lblTongPhanCong" text="Tổng phân công: 0" style="-fx-font-size: 16px;" />
+            </HBox>
+            <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding: 10;">
+                <Button text="Xuất PDF" onAction="#exportPDF" style="-fx-font-size: 12px;" />
+            </HBox>
+        </VBox>
     </top>
 
     <center>
-        <TableView fx:id="tableThongKe">
-            <columns>
-                <TableColumn fx:id="colTenDuAn" text="Tên dự án" prefWidth="200" />
-                <TableColumn fx:id="colTienDo" text="Tiến độ (%)" prefWidth="100" />
-                <TableColumn fx:id="colSoLuongCV" text="Số lượng công việc" prefWidth="150" />
-                <TableColumn fx:id="colSoLuongNV" text="Số lượng nhân viên" prefWidth="150" />
-            </columns>
-        </TableView>
+        <TabPane>
+            <Tab text="Tổng quát" closable="false">
+                <VBox spacing="10" style="-fx-padding: 10;">
+                    <TableView fx:id="tableThongKe" prefHeight="250">
+                        <columns>
+                            <TableColumn fx:id="colTenDuAn" text="Tên dự án" prefWidth="200" />
+                            <TableColumn fx:id="colTienDo" text="Tiến độ (%)" prefWidth="100" />
+                            <TableColumn fx:id="colSoLuongCV" text="Số lượng công việc" prefWidth="150" />
+                            <TableColumn fx:id="colSoLuongNV" text="Số lượng nhân viên" prefWidth="150" />
+                        </columns>
+                    </TableView>
+                    <BarChart fx:id="barChartTienDo" title="Tiến độ các dự án" prefHeight="250">
+                        <xAxis>
+                            <CategoryAxis fx:id="xAxisTienDo" label="Dự án" />
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis fx:id="yAxisTienDo" label="Tiến độ (%)" />
+                        </yAxis>
+                    </BarChart>
+                </VBox>
+            </Tab>
+            
+            <Tab text="Công việc hoàn thành" closable="false">
+                <VBox spacing="10" style="-fx-padding: 10;">
+                    <TableView fx:id="tableCVHoanThanh" prefHeight="250">
+                        <columns>
+                            <TableColumn fx:id="colDuAnCV" text="Tên dự án" prefWidth="200" />
+                            <TableColumn fx:id="colCVHoanThanh" text="Công việc hoàn thành" prefWidth="150" />
+                            <TableColumn fx:id="colTongCVDA" text="Tổng công việc" prefWidth="150" />
+                        </columns>
+                    </TableView>
+                    <BarChart fx:id="barChartCV" title="Công việc hoàn thành vs Tổng công việc" prefHeight="250" categoryGap="10">
+                        <xAxis>
+                            <CategoryAxis fx:id="xAxisCV" label="Dự án" />
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis fx:id="yAxisCV" label="Số lượng" />
+                        </yAxis>
+                    </BarChart>
+                </VBox>
+            </Tab>
+            
+            <Tab text="Khối lượng theo nhân viên" closable="false">
+                <VBox spacing="10" style="-fx-padding: 10;">
+                    <TableView fx:id="tableNhanVienCV" prefHeight="250">
+                        <columns>
+                            <TableColumn fx:id="colTenNV" text="Tên nhân viên" prefWidth="200" />
+                            <TableColumn fx:id="colSoCVNV" text="Số công việc" prefWidth="150" />
+                            <TableColumn fx:id="colSoCVHoanThanhNV" text="Số công việc hoàn thành" prefWidth="200" />
+                        </columns>
+                    </TableView>
+                    <BarChart fx:id="barChartNhanVien" title="Khối lượng công việc theo nhân viên" prefHeight="250">
+                        <xAxis>
+                            <CategoryAxis fx:id="xAxisNV" label="Nhân viên" />
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis fx:id="yAxisNV" label="Số lượng" />
+                        </yAxis>
+                    </BarChart>
+                </VBox>
+            </Tab>
+            
+            <Tab text="Trạng thái dự án" closable="false">
+                <VBox spacing="10" style="-fx-padding: 10;">
+                    <TableView fx:id="tableTrangThaiDA" prefHeight="250">
+                        <columns>
+                            <TableColumn fx:id="colTrangThaiDA" text="Trạng thái" prefWidth="200" />
+                            <TableColumn fx:id="colSoDATheoTrangThai" text="Số dự án" prefWidth="150" />
+                        </columns>
+                    </TableView>
+                    <PieChart fx:id="pieTrangThaiDA" title="Trạng thái dự án" prefHeight="250" />
+                </VBox>
+            </Tab>
+            
+            <Tab text="Trạng thái công việc" closable="false">
+                <VBox spacing="10" style="-fx-padding: 10;">
+                    <PieChart fx:id="pieTrangThaiCV" title="Thống kê trạng thái công việc" prefHeight="500" />
+                </VBox>
+            </Tab>
+        </TabPane>
     </center>
 
     <bottom>
-        <HBox spacing="20" alignment="CENTER" style="-fx-padding: 20;">
-            <PieChart fx:id="pieTrangThaiCV" title="Thống kê trạng thái công việc" />
-        </HBox>
     </bottom>
 
 </BorderPane>
