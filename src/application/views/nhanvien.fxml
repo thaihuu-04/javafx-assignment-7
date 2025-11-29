@@ -33,7 +33,7 @@
     </top>
 
     <center>
-        <TableView fx:id="tblNV">
+        <TableView fx:id="tblNV" onMouseClicked="#onTableClick">
             <columns>
                 <TableColumn fx:id="colMa" text="Mã" prefWidth="70" />
                 <TableColumn fx:id="colTen" text="Tên" prefWidth="160" />
