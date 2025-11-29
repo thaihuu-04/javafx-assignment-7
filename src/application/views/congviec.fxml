@@ -27,10 +27,10 @@
     <center>
         <TableView fx:id="tableCV">
             <columns>
-                <TableColumn fx:id="colMa" text="Mã CV" prefWidth="60" />
+                <TableColumn fx:id="colMa" text="Mã công việc" prefWidth="80" />
+                <TableColumn fx:id="colDuAn" text="Tên dự án" prefWidth="120" />
+                <TableColumn fx:id="colNhanVien" text="Tên nhân viên" prefWidth="120" />
                 <TableColumn fx:id="colTen" text="Tên công việc" prefWidth="140" />
-                <TableColumn fx:id="colDuAn" text="Dự án" prefWidth="120" />
-                <TableColumn fx:id="colNhanVien" text="Nhân viên" prefWidth="120" />
                 <TableColumn fx:id="colBD" text="Ngày bắt đầu" prefWidth="110" />
                 <TableColumn fx:id="colKT" text="Ngày kết thúc" prefWidth="110" />
                 <TableColumn fx:id="colTrangThai" text="Trạng thái" prefWidth="90" />
