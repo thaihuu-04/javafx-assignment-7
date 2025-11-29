@@ -10,8 +10,8 @@
     <VBox spacing="15" alignment="CENTER" layoutX="50" layoutY="30" prefWidth="300">
         <Label text="ĐĂNG NHẬP" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
 
-        <TextField fx:id="txtUsername" promptText="Tên đăng nhập" />
-        <PasswordField fx:id="txtPassword" promptText="Mật khẩu" />
+        <TextField fx:id="txtUsername" promptText="Tên đăng nhập" text="admin" />
+        <PasswordField fx:id="txtPassword" promptText="Mật khẩu" text="admin123" />
 
         <Button text="Đăng nhập" prefWidth="200" onAction="#handleLogin" />
     </VBox>
