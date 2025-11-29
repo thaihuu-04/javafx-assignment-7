@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="application.controllers.CongViecController">
+
+    <top>
+        <HBox spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10" />
+            </padding>
+            <ComboBox fx:id="cboDuAn" promptText="Chọn dự án" />
+            <ComboBox fx:id="cboNhanVien" promptText="Chọn nhân viên" />
+            <TextField fx:id="txtTenCV" promptText="Tên công việc" />
+            <DatePicker fx:id="dpBD" promptText="Ngày bắt đầu" />
+            <DatePicker fx:id="dpKT" promptText="Ngày kết thúc" />
+            <ComboBox fx:id="cboTrangThai" promptText="Trạng thái" />
+            <Slider fx:id="sliderTienDo" min="0" max="100" prefWidth="140" />
+            <Button text="Thêm" onAction="#add" />
+            <Button text="Sửa" onAction="#update" />
+            <Button text="Xóa" onAction="#delete" />
+        </HBox>
+    </top>
+
+    <center>
+        <TableView fx:id="tableCV">
+            <columns>
+                <TableColumn fx:id="colMa" text="Mã" prefWidth="60" />
+                <TableColumn fx:id="colTen" text="Tên công việc" prefWidth="160" />
+                <TableColumn fx:id="colTrangThai" text="Trạng thái" prefWidth="100" />
+                <TableColumn fx:id="colTienDo" text="Tiến độ (%)" prefWidth="100" />
+            </columns>
+        </TableView>
+    </center>
+
+    <bottom>
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10" />
+            </padding>
+            <TextField fx:id="txtSearch" promptText="Tìm kiếm..." />
+            <Button text="Tìm" onAction="#search" />
+        </HBox>
+    </bottom>
+
+</BorderPane>

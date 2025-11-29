@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.chart.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="application.controllers.ThongKeController">
+
+    <top>
+        <HBox spacing="20" alignment="CENTER" style="-fx-padding: 20;">
+            <Label fx:id="lblTongDuAn" text="Tổng dự án: 0" style="-fx-font-size: 16px;" />
+            <Label fx:id="lblTongNhanVien" text="Tổng nhân viên: 0" style="-fx-font-size: 16px;" />
+            <Label fx:id="lblTongCongViec" text="Tổng công việc: 0" style="-fx-font-size: 16px;" />
+            <Label fx:id="lblTongPhanCong" text="Tổng phân công: 0" style="-fx-font-size: 16px;" />
+        </HBox>
+    </top>
+
+    <center>
+        <TableView fx:id="tableThongKe">
+            <columns>
+                <TableColumn fx:id="colTenDuAn" text="Tên dự án" prefWidth="200" />
+                <TableColumn fx:id="colTienDo" text="Tiến độ (%)" prefWidth="100" />
+                <TableColumn fx:id="colSoLuongCV" text="Số lượng công việc" prefWidth="150" />
+                <TableColumn fx:id="colSoLuongNV" text="Số lượng nhân viên" prefWidth="150" />
+            </columns>
+        </TableView>
+    </center>
+
+    <bottom>
+        <HBox spacing="20" alignment="CENTER" style="-fx-padding: 20;">
+            <PieChart fx:id="pieTrangThaiCV" title="Thống kê trạng thái công việc" />
+        </HBox>
+    </bottom>
+
+</BorderPane>

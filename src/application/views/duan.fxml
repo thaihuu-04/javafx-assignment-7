@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="application.controllers.DuAnController">
+
+    <top>
+        <HBox spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10" />
+            </padding>
+            <TextField fx:id="txtTenDA" promptText="Tên dự án" />
+            <DatePicker fx:id="dpBD" promptText="Ngày bắt đầu" />
+            <DatePicker fx:id="dpKT" promptText="Ngày kết thúc" />
+            <ComboBox fx:id="cboTrangThai" promptText="Trạng thái" />
+            <Button text="Thêm" onAction="#add" />
+            <Button text="Sửa" onAction="#update" />
+            <Button text="Xóa" onAction="#delete" />
+        </HBox>
+    </top>
+
+    <center>
+        <TableView fx:id="tableDuAn">
+            <columns>
+                <TableColumn fx:id="colMa" text="Mã DA" prefWidth="80" />
+                <TableColumn fx:id="colTen" text="Tên DA" prefWidth="160" />
+                <TableColumn fx:id="colBD" text="Ngày bắt đầu" prefWidth="120" />
+                <TableColumn fx:id="colKT" text="Ngày kết thúc" prefWidth="120" />
+                <TableColumn fx:id="colTT" text="Trạng thái" prefWidth="140" />
+                <TableColumn fx:id="colQL" text="Người quản lý" prefWidth="140" />
+            </columns>
+        </TableView>
+    </center>
+
+    <bottom>
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10" />
+            </padding>
+            <TextField fx:id="txtTimKiem" promptText="Tìm kiếm..." />
+            <Button text="Tìm" onAction="#search" />
+        </HBox>
+    </bottom>
+
+</BorderPane>

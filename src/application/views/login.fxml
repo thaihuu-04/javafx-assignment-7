@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefWidth="400" prefHeight="260" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="application.controllers.LoginController">
+
+    <VBox spacing="15" alignment="CENTER" layoutX="50" layoutY="30" prefWidth="300">
+        <Label text="ĐĂNG NHẬP" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+
+        <TextField fx:id="txtUsername" promptText="Tên đăng nhập" />
+        <PasswordField fx:id="txtPassword" promptText="Mật khẩu" />
+
+        <Button text="Đăng nhập" prefWidth="200" onAction="#handleLogin" />
+    </VBox>
+
+</AnchorPane>

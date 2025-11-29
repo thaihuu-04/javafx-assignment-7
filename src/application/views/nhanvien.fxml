@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="application.controllers.NhanVienController">
+
+    <top>
+        <HBox spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10" />
+            </padding>
+            <TextField fx:id="txtTen" promptText="Tên nhân viên" />
+            <ComboBox fx:id="cboChucVu" promptText="Chức vụ" />
+            <TextField fx:id="txtEmail" promptText="Email" />
+            <Button text="Thêm" onAction="#add" />
+            <Button text="Sửa" onAction="#update" />
+            <Button text="Xóa" onAction="#delete" />
+        </HBox>
+    </top>
+
+    <center>
+        <TableView fx:id="tblNV">
+            <columns>
+                <TableColumn fx:id="colMa" text="Mã" prefWidth="70" />
+                <TableColumn fx:id="colTen" text="Tên" prefWidth="160" />
+                <TableColumn fx:id="colChucVu" text="Chức vụ" prefWidth="120" />
+                <TableColumn fx:id="colEmail" text="Email" prefWidth="200" />
+            </columns>
+        </TableView>
+    </center>
+
+    <bottom>
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10" />
+            </padding>
+            <TextField fx:id="txtTim" promptText="Tìm kiếm..." />
+            <Button text="Tìm" onAction="#search" />
+        </HBox>
+    </bottom>
+
+</BorderPane>

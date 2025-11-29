@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="application.controllers.PhanCongController">
+
+    <top>
+        <HBox spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10" />
+            </padding>
+            <ComboBox fx:id="cboDuAn" promptText="Chọn dự án" />
+            <ComboBox fx:id="cboNhanVien" promptText="Chọn nhân viên" />
+            <Button text="Gán" onAction="#assign" />
+            <Button text="Hủy" onAction="#unassign" />
+        </HBox>
+    </top>
+
+    <center>
+        <TableView fx:id="tbl">
+            <columns>
+                <TableColumn fx:id="colMaPC" text="Mã PC" prefWidth="80" />
+                <TableColumn fx:id="colMaNV" text="Mã NV" prefWidth="120" />
+                <TableColumn fx:id="colTenNV" text="Tên nhân viên" prefWidth="160" />
+                <TableColumn fx:id="colMaDA" text="Mã DA" prefWidth="120" />
+                <TableColumn fx:id="colTenDA" text="Tên dự án" prefWidth="160" />
+            </columns>
+        </TableView>
+    </center>
+
+</BorderPane>

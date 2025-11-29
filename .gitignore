@@ -1,0 +1,43 @@
+# Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Eclipse
+.project
+.classpath
+.settings/
+bin/
+
+# IntelliJ
+*.iml
+.idea/
+out/
+
+# VS Code
+.vscode/
+
+# Build
+build/
+build.fxbuild
+build.ps1
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Others
+lib/
+*.db
+*.sqlite
+
+# SQL
+*.sql
+
+# Ignore generated files
+!src/
+!sql/

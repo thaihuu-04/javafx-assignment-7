@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<BorderPane fx:id="mainPane" prefWidth="1000" prefHeight="600" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="application.controllers.MainController">
+    <top>
+        <HBox spacing="10" style="-fx-padding: 10; -fx-background-color: #34495e;">
+            <Label fx:id="lblUser" text="Guest" style="-fx-text-fill: white; -fx-font-size: 14px;" />
+        </HBox>
+    </top>
+    <left>
+        <VBox spacing="10" style="-fx-background-color: #2c3e50; -fx-padding: 15;">
+            <Button text="Dự án" onAction="#showDuAn" style="-fx-text-fill: white; -fx-background-color: #34495e;" />
+            <Button text="Nhân viên" onAction="#showNhanVien" style="-fx-text-fill: white; -fx-background-color: #34495e;" />
+            <Button text="Công việc" onAction="#showCongViec" style="-fx-text-fill: white; -fx-background-color: #34495e;" />
+            <Button text="Phân công" onAction="#showPhanCong" style="-fx-text-fill: white; -fx-background-color: #34495e;" />
+            <Button text="Thống kê" onAction="#showThongKe" style="-fx-text-fill: white; -fx-background-color: #34495e;" />
+        </VBox>
+    </left>
+
+    <center>
+        <AnchorPane>
+            <Label text="Chọn chức năng từ menu..." layoutX="200" layoutY="250"
+                   style="-fx-font-size: 20px; -fx-text-fill: gray;" />
+        </AnchorPane>
+    </center>
+
+</BorderPane>
