@@ -23,6 +23,10 @@ public class CongViecController {
     @FXML private TableView<CongViec> tableCV;
     @FXML private TableColumn<CongViec, Integer> colMa;
     @FXML private TableColumn<CongViec, String> colTen;
+    @FXML private TableColumn<CongViec, String> colDuAn;
+    @FXML private TableColumn<CongViec, String> colNhanVien;
+    @FXML private TableColumn<CongViec, String> colBD;
+    @FXML private TableColumn<CongViec, String> colKT;
     @FXML private TableColumn<CongViec, String> colTrangThai;
     @FXML private TableColumn<CongViec, Integer> colTienDo;
 
@@ -40,6 +44,43 @@ public class CongViecController {
         colTen.setCellValueFactory(new PropertyValueFactory<>("tenCV"));
         colTrangThai.setCellValueFactory(new PropertyValueFactory<>("trangThai"));
         colTienDo.setCellValueFactory(new PropertyValueFactory<>("tienDo"));
+
+        // Custom cell factories for lookups
+        colDuAn.setCellValueFactory(cellData -> {
+            int maDA = cellData.getValue().getMaDA();
+            String tenDA = "N/A";
+            for (DuAn da : duAnDAO.getAll()) {
+                if (da.getMaDA() == maDA) {
+                    tenDA = da.getTenDA();
+                    break;
+                }
+            }
+            return new javafx.beans.property.SimpleStringProperty(tenDA);
+        });
+
+        colNhanVien.setCellValueFactory(cellData -> {
+            int maNV = cellData.getValue().getMaNV();
+            String tenNV = "N/A";
+            for (NhanVien nv : nhanVienDAO.getAll()) {
+                if (nv.getMaNV() == maNV) {
+                    tenNV = nv.getTenNV();
+                    break;
+                }
+            }
+            return new javafx.beans.property.SimpleStringProperty(tenNV);
+        });
+
+        colBD.setCellValueFactory(cellData -> {
+            Object ngayBD = cellData.getValue().getNgayBatDau();
+            String date = ngayBD != null ? ngayBD.toString() : "N/A";
+            return new javafx.beans.property.SimpleStringProperty(date);
+        });
+
+        colKT.setCellValueFactory(cellData -> {
+            Object ngayKT = cellData.getValue().getNgayKetThuc();
+            String date = ngayKT != null ? ngayKT.toString() : "N/A";
+            return new javafx.beans.property.SimpleStringProperty(date);
+        });
 
         cboTrangThai.setItems(FXCollections.observableArrayList("Chưa bắt đầu","Đang làm","Hoàn thành"));
         cboDuAn.setItems(FXCollections.observableArrayList(duAnDAO.getAll()));
