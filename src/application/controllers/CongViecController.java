@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class CongViecController {
 
@@ -30,9 +31,11 @@ public class CongViecController {
     @FXML private TableColumn<CongViec, String> colTrangThai;
     @FXML private TableColumn<CongViec, Integer> colTienDo;
 
-    @FXML private TextField txtTenCV, txtSearch;
+    @FXML private TextField txtTenCV, txtSearchName;
     @FXML private DatePicker dpBD, dpKT;
     @FXML private Slider sliderTienDo;
+    @FXML private ComboBox<NhanVien> cboSearchNhanVien;
+    @FXML private ComboBox<String> cboSearchTrangThai;
 
     private DuAnDAO duAnDAO = new DuAnDAO();
     private NhanVienDAO nhanVienDAO = new NhanVienDAO();
@@ -85,6 +88,10 @@ public class CongViecController {
         cboTrangThai.setItems(FXCollections.observableArrayList("Chưa bắt đầu","Đang làm","Hoàn thành"));
         cboDuAn.setItems(FXCollections.observableArrayList(duAnDAO.getAll()));
         cboNhanVien.setItems(FXCollections.observableArrayList(nhanVienDAO.getAll()));
+        
+        // Setup search filters
+        cboSearchNhanVien.setItems(FXCollections.observableArrayList(nhanVienDAO.getAll()));
+        cboSearchTrangThai.setItems(FXCollections.observableArrayList("Chưa bắt đầu","Đang làm","Hoàn thành"));
 
         // Add listener to cboTrangThai to automatically update progress
         cboTrangThai.setOnAction(event -> updateProgressByStatus());
@@ -185,9 +192,32 @@ public class CongViecController {
 
     @FXML
     private void search() {
-        String q = txtSearch.getText();
-        if (q == null || q.isBlank()) loadByProject();
-        else tableCV.setItems(FXCollections.observableArrayList(congViecDAO.search(q)));
+        String tenCV = txtSearchName.getText();
+        NhanVien nhanVien = cboSearchNhanVien.getValue();
+        String trangThai = cboSearchTrangThai.getValue();
+        
+        List<CongViec> all = congViecDAO.getAll();
+        List<CongViec> results = new ArrayList<>();
+        
+        for (CongViec cv : all) {
+            boolean matchName = tenCV == null || tenCV.isBlank() || cv.getTenCV().toLowerCase().contains(tenCV.toLowerCase());
+            boolean matchNV = nhanVien == null || cv.getMaNV() == nhanVien.getMaNV();
+            boolean matchStatus = trangThai == null || cv.getTrangThai().equals(trangThai);
+            
+            if (matchName && matchNV && matchStatus) {
+                results.add(cv);
+            }
+        }
+        
+        tableCV.setItems(FXCollections.observableArrayList(results));
+    }
+
+    @FXML
+    private void clearSearch() {
+        txtSearchName.clear();
+        cboSearchNhanVien.setValue(null);
+        cboSearchTrangThai.setValue(null);
+        loadByProject();
     }
 
     @FXML

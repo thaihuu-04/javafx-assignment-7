@@ -40,13 +40,19 @@
     </center>
 
     <bottom>
-        <HBox spacing="10" alignment="CENTER_RIGHT">
+        <VBox spacing="10">
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10" />
             </padding>
-            <TextField fx:id="txtSearch" promptText="Tìm kiếm..." />
-            <Button text="Tìm" onAction="#search" />
-        </HBox>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Tìm kiếm:" />
+                <TextField fx:id="txtSearchName" promptText="Tên công việc..." prefWidth="150" />
+                <ComboBox fx:id="cboSearchNhanVien" promptText="Nhân viên..." prefWidth="130" />
+                <ComboBox fx:id="cboSearchTrangThai" promptText="Trạng thái..." prefWidth="120" />
+                <Button text="Tìm" onAction="#search" />
+                <Button text="Xóa lọc" onAction="#clearSearch" />
+            </HBox>
+        </VBox>
     </bottom>
 
 </BorderPane>
