@@ -29,6 +29,8 @@ public class DuAnController {
     @FXML private DatePicker dpBD, dpKT;
     @FXML private ComboBox<String> cboTrangThai;
     @FXML private TextField txtTim;
+    @FXML private ComboBox<String> cboLocTrangThai;
+    @FXML private ComboBox<NhanVien> cboLocQuanLy;
 
     private DuAnDAO duAnDAO = new DuAnDAO();
     private ObservableList<DuAn> data = FXCollections.observableArrayList();
@@ -46,6 +48,10 @@ public class DuAnController {
 
         cboTrangThai.setItems(FXCollections.observableArrayList("Đang thực hiện","Hoàn thành","Tạm dừng"));
         cboQuanLy.setItems(FXCollections.observableArrayList(nhanVienDAO.getAll()));
+        
+        // Setup filter comboboxes
+        cboLocTrangThai.setItems(FXCollections.observableArrayList("Đang thực hiện","Hoàn thành","Tạm dừng"));
+        cboLocQuanLy.setItems(FXCollections.observableArrayList(nhanVienDAO.getAll()));
 
         loadData();
         
@@ -180,5 +186,32 @@ public class DuAnController {
         dpKT.setValue(null);
         cboTrangThai.setValue(null);
         cboQuanLy.setValue(null);
+    }
+
+    @FXML
+    private void filter() {
+        String trangThai = cboLocTrangThai.getValue();
+        NhanVien quanLy = cboLocQuanLy.getValue();
+
+        List<DuAn> allData = duAnDAO.getAll();
+        ObservableList<DuAn> filtered = FXCollections.observableArrayList();
+
+        for (DuAn da : allData) {
+            boolean matchTrangThai = (trangThai == null || trangThai.isEmpty() || da.getTrangThai().equals(trangThai));
+            boolean matchQuanLy = (quanLy == null || da.getNguoiQuanLy().equals(quanLy.getHoTen()));
+
+            if (matchTrangThai && matchQuanLy) {
+                filtered.add(da);
+            }
+        }
+
+        tableDuAn.setItems(filtered);
+    }
+
+    @FXML
+    private void clearFilter() {
+        cboLocTrangThai.setValue(null);
+        cboLocQuanLy.setValue(null);
+        loadData();
     }
 }
