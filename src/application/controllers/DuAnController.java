@@ -23,7 +23,7 @@ public class DuAnController {
     @FXML private TableColumn<DuAn, LocalDate> colKT;
     @FXML private TableColumn<DuAn, String> colTT;
     @FXML private TableColumn<DuAn, String> colQL;
-    @FXML private ComboBox<NhanVien> cboNhanVien;
+    @FXML private ComboBox<NhanVien> cboQuanLy;
 
     @FXML private TextField txtTenDA;
     @FXML private DatePicker dpBD, dpKT;
@@ -45,7 +45,7 @@ public class DuAnController {
         colQL.setCellValueFactory(new PropertyValueFactory<>("nguoiQuanLy"));
 
         cboTrangThai.setItems(FXCollections.observableArrayList("Đang thực hiện","Hoàn thành","Tạm dừng"));
-        cboNhanVien.setItems(FXCollections.observableArrayList(nhanVienDAO.getAll()));
+        cboQuanLy.setItems(FXCollections.observableArrayList(nhanVienDAO.getAll()));
 
         loadData();
         
@@ -75,7 +75,7 @@ public class DuAnController {
             da.setNgayKetThuc(dpKT.getValue());
             da.setTrangThai(cboTrangThai.getValue());
             
-            NhanVien nv = cboNhanVien.getValue();
+            NhanVien nv = cboQuanLy.getValue();
             if (nv != null) {
                 da.setNguoiQuanLy(nv.getHoTen());
             }
@@ -102,7 +102,7 @@ public class DuAnController {
             selectedDuAn.setNgayKetThuc(dpKT.getValue());
             selectedDuAn.setTrangThai(cboTrangThai.getValue());
             
-            NhanVien nv = cboNhanVien.getValue();
+            NhanVien nv = cboQuanLy.getValue();
             if (nv != null) {
                 selectedDuAn.setNguoiQuanLy(nv.getHoTen());
             }
@@ -160,7 +160,7 @@ public class DuAnController {
             List<NhanVien> allNV = nhanVienDAO.getAll();
             for (NhanVien nv : allNV) {
                 if (nv.getHoTen().equals(sel.getNguoiQuanLy())) {
-                    cboNhanVien.setValue(nv);
+                    cboQuanLy.setValue(nv);
                     break;
                 }
             }
@@ -173,6 +173,6 @@ public class DuAnController {
         dpBD.setValue(null);
         dpKT.setValue(null);
         cboTrangThai.setValue(null);
-        cboNhanVien.setValue(null);
+        cboQuanLy.setValue(null);
     }
 }
