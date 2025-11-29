@@ -42,8 +42,9 @@
                 <TableColumn fx:id="colTen" text="Tên DA" prefWidth="160" />
                 <TableColumn fx:id="colBD" text="Ngày bắt đầu" prefWidth="120" />
                 <TableColumn fx:id="colKT" text="Ngày kết thúc" prefWidth="120" />
-                <TableColumn fx:id="colTT" text="Trạng thái" prefWidth="140" />
+                <TableColumn fx:id="colTT" text="Trạng thái" prefWidth="100" />
                 <TableColumn fx:id="colQL" text="Người quản lý" prefWidth="140" />
+                <TableColumn fx:id="colTienDo" text="Tiến độ (%)" prefWidth="100" />
             </columns>
         </TableView>
     </center>

@@ -1,5 +1,6 @@
 package application.controllers;
 
+import application.dao.CongViecDAO;
 import application.dao.DuAnDAO;
 import application.dao.NhanVienDAO;
 import application.models.DuAn;
@@ -23,6 +24,7 @@ public class DuAnController {
     @FXML private TableColumn<DuAn, LocalDate> colKT;
     @FXML private TableColumn<DuAn, String> colTT;
     @FXML private TableColumn<DuAn, String> colQL;
+    @FXML private TableColumn<DuAn, Integer> colTienDo;
     @FXML private ComboBox<NhanVien> cboQuanLy;
 
     @FXML private TextField txtTenDA;
@@ -33,6 +35,7 @@ public class DuAnController {
     @FXML private ComboBox<NhanVien> cboLocQuanLy;
 
     private DuAnDAO duAnDAO = new DuAnDAO();
+    private CongViecDAO congViecDAO = new CongViecDAO();
     private ObservableList<DuAn> data = FXCollections.observableArrayList();
     private NhanVienDAO nhanVienDAO = new NhanVienDAO();
     private DuAn selectedDuAn = null;
@@ -45,6 +48,13 @@ public class DuAnController {
         colKT.setCellValueFactory(new PropertyValueFactory<>("ngayKetThuc"));
         colTT.setCellValueFactory(new PropertyValueFactory<>("trangThai"));
         colQL.setCellValueFactory(new PropertyValueFactory<>("nguoiQuanLy"));
+        
+        // Setup progress column with custom cell factory
+        colTienDo.setCellValueFactory(cellData -> {
+            int maDA = cellData.getValue().getMaDA();
+            int progress = congViecDAO.calculateProgress(maDA);
+            return new javafx.beans.property.SimpleIntegerProperty(progress).asObject();
+        });
 
         cboTrangThai.setItems(FXCollections.observableArrayList("Đang thực hiện","Hoàn thành","Tạm dừng"));
         cboQuanLy.setItems(FXCollections.observableArrayList(nhanVienDAO.getAll()));
@@ -64,6 +74,8 @@ public class DuAnController {
         List<DuAn> list = duAnDAO.getAll();
         data.addAll(list);
         tableDuAn.setItems(data);
+        // Refresh to recalculate progress
+        tableDuAn.refresh();
     }
 
     @FXML
