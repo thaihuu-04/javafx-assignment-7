@@ -77,6 +77,12 @@ public class NhanVienController {
     }
 
     @FXML
+    private void clearSearch() {
+        txtTim.clear();
+        load();
+    }
+
+    @FXML
     private void onTableClick() {
         NhanVien sel = tblNV.getSelectionModel().getSelectedItem();
         if (sel == null) return;

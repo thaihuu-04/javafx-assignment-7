@@ -36,8 +36,9 @@
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10" />
             </padding>
-            <TextField fx:id="txtTim" promptText="Tìm kiếm..." />
-            <Button text="Tìm" onAction="#search" />
+            <TextField fx:id="txtTim" promptText="Tìm kiếm..." HBox.hgrow="ALWAYS" />
+            <Button text="Tìm" onAction="#search" prefWidth="80" />
+            <Button text="Xóa tìm kiếm" onAction="#clearSearch" prefWidth="100" />
         </HBox>
     </bottom>
 
