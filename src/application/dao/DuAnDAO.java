@@ -93,6 +93,12 @@ public class DuAnDAO {
                 DuAn da = new DuAn();
                 da.setMaDA(rs.getInt("MaDA"));
                 da.setTenDA(rs.getString("TenDA"));
+                Date bd = rs.getDate("NgayBatDau");
+                Date kt = rs.getDate("NgayKetThuc");
+                if (bd != null) da.setNgayBatDau(bd.toLocalDate());
+                if (kt != null) da.setNgayKetThuc(kt.toLocalDate());
+                da.setTrangThai(rs.getString("TrangThai"));
+                da.setNguoiQuanLy(rs.getString("NguoiQuanLy"));
                 list.add(da);
             }
         } catch (Exception e) { e.printStackTrace(); }

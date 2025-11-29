@@ -1,7 +1,9 @@
 package application.controllers;
 
 import application.dao.DuAnDAO;
+import application.dao.NhanVienDAO;
 import application.models.DuAn;
+import application.models.NhanVien;
 import application.utils.AlertUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,6 +23,7 @@ public class DuAnController {
     @FXML private TableColumn<DuAn, LocalDate> colKT;
     @FXML private TableColumn<DuAn, String> colTT;
     @FXML private TableColumn<DuAn, String> colQL;
+    @FXML private ComboBox<NhanVien> cboNhanVien;
 
     @FXML private TextField txtTenDA;
     @FXML private DatePicker dpBD, dpKT;
@@ -29,7 +32,7 @@ public class DuAnController {
 
     private DuAnDAO duAnDAO = new DuAnDAO();
     private ObservableList<DuAn> data = FXCollections.observableArrayList();
-
+    private NhanVienDAO nhanVienDAO = new NhanVienDAO();
     @FXML
     public void initialize() {
         colMa.setCellValueFactory(new PropertyValueFactory<>("maDA"));
@@ -40,6 +43,8 @@ public class DuAnController {
         colQL.setCellValueFactory(new PropertyValueFactory<>("nguoiQuanLy"));
 
         cboTrangThai.setItems(FXCollections.observableArrayList("Đang thực hiện","Hoàn thành","Tạm dừng"));
+        // cboNhanVien loading can be added here
+        cboNhanVien.setItems(FXCollections.observableArrayList(nhanVienDAO.getAll()));
 
         loadData();
     }
@@ -114,5 +119,6 @@ public class DuAnController {
         dpBD.setValue(sel.getNgayBatDau());
         dpKT.setValue(sel.getNgayKetThuc());
         cboTrangThai.setValue(sel.getTrangThai());
+        cboNhanVien.setValue(null);
     }
 }

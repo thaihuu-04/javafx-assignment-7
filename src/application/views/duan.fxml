@@ -15,6 +15,7 @@
             <DatePicker fx:id="dpBD" promptText="Ngày bắt đầu" />
             <DatePicker fx:id="dpKT" promptText="Ngày kết thúc" />
             <ComboBox fx:id="cboTrangThai" promptText="Trạng thái" />
+            <ComboBox fx:id="cboNhanVien" promptText="Người quản lý" />
             <Button text="Thêm" onAction="#add" />
             <Button text="Sửa" onAction="#update" />
             <Button text="Xóa" onAction="#delete" />
