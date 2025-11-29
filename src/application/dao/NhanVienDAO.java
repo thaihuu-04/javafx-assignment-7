@@ -59,12 +59,39 @@ public class NhanVienDAO {
     }
 
     public boolean delete(int maNV) {
-        String sql = "DELETE FROM NhanVien WHERE MaNV=?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, maNV);
-            return ps.executeUpdate() > 0;
-        } catch (Exception e) { e.printStackTrace(); }
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            conn.setAutoCommit(false);
+            
+            // Xóa công việc liên quan trước
+            String sqlCV = "DELETE FROM CongViec WHERE NguoiPhuTrach=?";
+            try (PreparedStatement ps = conn.prepareStatement(sqlCV)) {
+                ps.setInt(1, maNV);
+                ps.executeUpdate();
+            }
+            
+            // Xóa phân công liên quan
+            String sqlPC = "DELETE FROM PhanCong WHERE MaNV=?";
+            try (PreparedStatement ps = conn.prepareStatement(sqlPC)) {
+                ps.setInt(1, maNV);
+                ps.executeUpdate();
+            }
+            
+            // Xóa nhân viên
+            String sql = "DELETE FROM NhanVien WHERE MaNV=?";
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, maNV);
+                int result = ps.executeUpdate();
+                if (result > 0) {
+                    conn.commit();
+                    return true;
+                } else {
+                    conn.rollback();
+                    return false;
+                }
+            }
+        } catch (Exception e) { 
+            e.printStackTrace(); 
+        }
         return false;
     }
 
