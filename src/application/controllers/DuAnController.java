@@ -33,6 +33,8 @@ public class DuAnController {
     private DuAnDAO duAnDAO = new DuAnDAO();
     private ObservableList<DuAn> data = FXCollections.observableArrayList();
     private NhanVienDAO nhanVienDAO = new NhanVienDAO();
+    private DuAn selectedDuAn = null;
+    
     @FXML
     public void initialize() {
         colMa.setCellValueFactory(new PropertyValueFactory<>("maDA"));
@@ -43,10 +45,12 @@ public class DuAnController {
         colQL.setCellValueFactory(new PropertyValueFactory<>("nguoiQuanLy"));
 
         cboTrangThai.setItems(FXCollections.observableArrayList("Đang thực hiện","Hoàn thành","Tạm dừng"));
-        // cboNhanVien loading can be added here
         cboNhanVien.setItems(FXCollections.observableArrayList(nhanVienDAO.getAll()));
 
         loadData();
+        
+        // Add listener for table row click
+        tableDuAn.setOnMouseClicked(event -> onTableClick());
     }
 
     private void loadData() {
@@ -59,14 +63,26 @@ public class DuAnController {
     @FXML
     private void add() {
         try {
+            // Reset form
+            if (selectedDuAn != null) {
+                AlertUtil.warning("Thêm", "Vui lòng xóa selection trước khi thêm mới");
+                return;
+            }
+            
             DuAn da = new DuAn();
             da.setTenDA(txtTenDA.getText());
             da.setNgayBatDau(dpBD.getValue());
             da.setNgayKetThuc(dpKT.getValue());
             da.setTrangThai(cboTrangThai.getValue());
+            
+            NhanVien nv = cboNhanVien.getValue();
+            if (nv != null) {
+                da.setNguoiQuanLy(nv.getHoTen());
+            }
 
             String v = duAnDAO.insert(da) ? "Thêm thành công" : "Thêm thất bại";
             AlertUtil.info("Thêm dự án", v);
+            clearForm();
             loadData();
         } catch (Exception e) {
             e.printStackTrace();
@@ -76,15 +92,24 @@ public class DuAnController {
 
     @FXML
     private void update() {
-        DuAn sel = tableDuAn.getSelectionModel().getSelectedItem();
-        if (sel == null) { AlertUtil.warning("Chọn", "Vui lòng chọn dự án để sửa"); return; }
+        if (selectedDuAn == null) { 
+            AlertUtil.warning("Chọn", "Vui lòng chọn dự án để sửa"); 
+            return; 
+        }
         try {
-            sel.setTenDA(txtTenDA.getText());
-            sel.setNgayBatDau(dpBD.getValue());
-            sel.setNgayKetThuc(dpKT.getValue());
-            sel.setTrangThai(cboTrangThai.getValue());
-            boolean ok = duAnDAO.update(sel);
+            selectedDuAn.setTenDA(txtTenDA.getText());
+            selectedDuAn.setNgayBatDau(dpBD.getValue());
+            selectedDuAn.setNgayKetThuc(dpKT.getValue());
+            selectedDuAn.setTrangThai(cboTrangThai.getValue());
+            
+            NhanVien nv = cboNhanVien.getValue();
+            if (nv != null) {
+                selectedDuAn.setNguoiQuanLy(nv.getHoTen());
+            }
+            
+            boolean ok = duAnDAO.update(selectedDuAn);
             if (ok) AlertUtil.info("Cập nhật", "Đã cập nhật dự án");
+            clearForm();
             loadData();
         } catch (Exception e) {
             e.printStackTrace();
@@ -115,10 +140,31 @@ public class DuAnController {
     private void onTableClick() {
         DuAn sel = tableDuAn.getSelectionModel().getSelectedItem();
         if (sel == null) return;
+        
+        selectedDuAn = sel;
         txtTenDA.setText(sel.getTenDA());
         dpBD.setValue(sel.getNgayBatDau());
         dpKT.setValue(sel.getNgayKetThuc());
         cboTrangThai.setValue(sel.getTrangThai());
+        
+        // Set NguoiQuanLy to ComboBox
+        if (sel.getNguoiQuanLy() != null && !sel.getNguoiQuanLy().isEmpty()) {
+            List<NhanVien> allNV = nhanVienDAO.getAll();
+            for (NhanVien nv : allNV) {
+                if (nv.getHoTen().equals(sel.getNguoiQuanLy())) {
+                    cboNhanVien.setValue(nv);
+                    break;
+                }
+            }
+        }
+    }
+    
+    private void clearForm() {
+        selectedDuAn = null;
+        txtTenDA.clear();
+        dpBD.setValue(null);
+        dpKT.setValue(null);
+        cboTrangThai.setValue(null);
         cboNhanVien.setValue(null);
     }
 }
