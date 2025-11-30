@@ -8,7 +8,7 @@ public class NhanVien {
     private String dienThoai;
     private String username;
     private String matKhau;
-    private String vaiTro;
+    // private String vaiTro; // Xóa field này vì đã thay bằng ChucVu
     public NhanVien() {}
     public int getMaNV(){return maNV;} public void setMaNV(int v){maNV=v;}
     public String getHoTen(){return hoTen;} public void setHoTen(String v){hoTen=v;}
@@ -17,7 +17,7 @@ public class NhanVien {
     public String getDienThoai(){return dienThoai;} public void setDienThoai(String v){dienThoai=v;}
     public String getUsername() { return username; } public void setUsername(String username) { this.username = username; }
     public String getMatKhau() { return matKhau; } public void setMatKhau(String matKhau) { this.matKhau = matKhau; }
-    public String getVaiTro() { return vaiTro; } public void setVaiTro(String vaiTro) { this.vaiTro = vaiTro; }
+    // public String getVaiTro() { return vaiTro; } public void setVaiTro(String vaiTro) { this.vaiTro = vaiTro; }
     @Override
     public String toString() {
         return hoTen;

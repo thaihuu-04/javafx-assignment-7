@@ -26,7 +26,6 @@ public class NhanVienDAO {
                 nv.setDienThoai(rs.getString("DienThoai"));
                 nv.setUsername(rs.getString("Username"));
                 nv.setMatKhau(rs.getString("MatKhau"));
-                nv.setVaiTro(rs.getString("VaiTro"));
                 list.add(nv);
             }
         } catch (Exception e) { e.printStackTrace(); }
@@ -134,7 +133,6 @@ public class NhanVienDAO {
                 nv.setDienThoai(rs.getString("DienThoai"));
                 nv.setUsername(rs.getString("Username"));
                 nv.setMatKhau(rs.getString("MatKhau"));
-                nv.setVaiTro(rs.getString("VaiTro"));
                 list.add(nv);
             }
         } catch (Exception e) { e.printStackTrace(); }

@@ -20,7 +20,7 @@ public class MainController {
     public void setCurrentUser(NhanVien user) {
         this.currentUser = user;
         if (user != null) {
-            lblUser.setText("Xin chào: " + user.getUsername() + " (" + user.getVaiTro() + ")");
+            lblUser.setText("Xin chào: " + user.getUsername() + " (" + user.getChucVu() + ")");
         }
         showDuAn();
     }

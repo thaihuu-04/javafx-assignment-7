@@ -46,7 +46,7 @@ public class LoginController {
                 AlertUtil.warning("Đăng nhập", "Sai tên đăng nhập hoặc mật khẩu.");
                 return;
             }
-            UserSession.setSession(nvLogin.getUsername(), nvLogin.getVaiTro(), nvLogin.getMaNV());
+            UserSession.setSession(nvLogin.getUsername(), nvLogin.getChucVu(), nvLogin.getMaNV());
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/main.fxml"));
             Parent root = loader.load();
             MainController mainCtrl = loader.getController();
