@@ -129,4 +129,30 @@ public class DuAnDAO {
         } catch (Exception e) { e.printStackTrace(); }
         return list;
     }
+
+    public List<DuAn> getAllByManager(String tenDangNhap) {
+        List<DuAn> list = new ArrayList<>();
+        String sql = "SELECT * FROM DuAn WHERE NguoiQuanLy = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, tenDangNhap);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    DuAn da = new DuAn();
+                    da.setMaDA(rs.getInt("MaDA"));
+                    da.setTenDA(rs.getString("TenDA"));
+                    Date bd = rs.getDate("NgayBatDau");
+                    Date kt = rs.getDate("NgayKetThuc");
+                    if (bd != null) da.setNgayBatDau(bd.toLocalDate());
+                    if (kt != null) da.setNgayKetThuc(kt.toLocalDate());
+                    da.setTrangThai(rs.getString("TrangThai"));
+                    da.setNguoiQuanLy(rs.getString("NguoiQuanLy"));
+                    list.add(da);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

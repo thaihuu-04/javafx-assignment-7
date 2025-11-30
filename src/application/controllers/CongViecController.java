@@ -7,6 +7,7 @@ import application.models.CongViec;
 import application.models.DuAn;
 import application.models.NhanVien;
 import application.utils.AlertUtil;
+import application.utils.UserSession;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -36,6 +37,7 @@ public class CongViecController {
     @FXML private Slider sliderTienDo;
     @FXML private ComboBox<NhanVien> cboSearchNhanVien;
     @FXML private ComboBox<String> cboSearchTrangThai;
+    @FXML private Button btnThem, btnSua, btnXoa;
 
     private DuAnDAO duAnDAO = new DuAnDAO();
     private NhanVienDAO nhanVienDAO = new NhanVienDAO();
@@ -96,12 +98,68 @@ public class CongViecController {
         // Add listener to cboTrangThai to automatically update progress
         cboTrangThai.setOnAction(event -> updateProgressByStatus());
 
+        // Lấy vai trò từ UserSession
+        String vaiTro = UserSession.getVaiTro();
+        Integer maNV = UserSession.getMaNV();
+        String tenDangNhap = UserSession.getTenDangNhap();
+
+        // Phân quyền hiển thị nút chức năng
+        if (vaiTro == null) return;
+        switch (vaiTro) {
+            case "Admin":
+                btnThem.setVisible(true);
+                btnSua.setVisible(true);
+                btnXoa.setVisible(true);
+                break;
+            case "PM":
+                btnThem.setVisible(true);
+                btnSua.setVisible(true);
+                btnXoa.setVisible(true);
+                break;
+            case "Nhân viên":
+                btnThem.setVisible(false);
+                btnSua.setVisible(false);
+                btnXoa.setVisible(false);
+                break;
+        }
+        // Lọc dữ liệu hiển thị theo quyền
+        loadAllByRole();
+
         loadAll();
     }
 
     private void loadAll() {
         List<CongViec> all = congViecDAO.getAll();
         tableCV.setItems(FXCollections.observableArrayList(all));
+    }
+
+    private void loadAllByRole() {
+        String vaiTro = UserSession.getVaiTro();
+        Integer maNV = UserSession.getMaNV();
+        String tenDangNhap = UserSession.getTenDangNhap();
+        List<CongViec> all = congViecDAO.getAll();
+        List<CongViec> filtered = new ArrayList<>();
+        if (vaiTro == null) return;
+        switch (vaiTro) {
+            case "Admin":
+                filtered = all;
+                break;
+            case "PM":
+                // Lấy danh sách dự án mà PM quản lý
+                List<DuAn> duAnPM = duAnDAO.getAllByManager(tenDangNhap);
+                List<Integer> maDAList = new ArrayList<>();
+                for (DuAn da : duAnPM) maDAList.add(da.getMaDA());
+                for (CongViec cv : all) {
+                    if (maDAList.contains(cv.getMaDA())) filtered.add(cv);
+                }
+                break;
+            case "Nhân viên":
+                for (CongViec cv : all) {
+                    if (cv.getMaNV() == maNV) filtered.add(cv);
+                }
+                break;
+        }
+        tableCV.setItems(FXCollections.observableArrayList(filtered));
     }
 
     @FXML
@@ -114,6 +172,12 @@ public class CongViecController {
 
     @FXML
     private void add() {
+        // Kiểm tra quyền trước khi thêm
+        String vaiTro = UserSession.getVaiTro();
+        if (!"Admin".equals(vaiTro) && !"PM".equals(vaiTro)) {
+            AlertUtil.warning("Phân quyền", "Bạn không có quyền thêm công việc");
+            return;
+        }
         try {
             CongViec cv = new CongViec();
             DuAn da = cboDuAn.getValue();
@@ -150,6 +214,12 @@ public class CongViecController {
 
     @FXML
     private void update() {
+        // Kiểm tra quyền trước khi sửa
+        String vaiTro = UserSession.getVaiTro();
+        if (!"Admin".equals(vaiTro) && !"PM".equals(vaiTro)) {
+            AlertUtil.warning("Phân quyền", "Bạn không có quyền sửa công việc");
+            return;
+        }
         CongViec sel = tableCV.getSelectionModel().getSelectedItem();
         if (sel == null) { AlertUtil.warning("Chọn", "Vui lòng chọn công việc"); return; }
         try {
@@ -182,6 +252,12 @@ public class CongViecController {
 
     @FXML
     private void delete() {
+        // Kiểm tra quyền trước khi xóa
+        String vaiTro = UserSession.getVaiTro();
+        if (!"Admin".equals(vaiTro) && !"PM".equals(vaiTro)) {
+            AlertUtil.warning("Phân quyền", "Bạn không có quyền xóa công việc");
+            return;
+        }
         CongViec sel = tableCV.getSelectionModel().getSelectedItem();
         if (sel == null) { AlertUtil.warning("Chọn", "Vui lòng chọn công việc để xoá"); return; }
         if (congViecDAO.delete(sel.getMaCV())) {
