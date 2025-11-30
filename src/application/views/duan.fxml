@@ -17,9 +17,9 @@
                 <DatePicker fx:id="dpKT" promptText="Ngày kết thúc" />
                 <ComboBox fx:id="cboTrangThai" promptText="Trạng thái" />
                 <ComboBox fx:id="cboQuanLy" promptText="Người quản lý" />
-                <Button text="Thêm" onAction="#add" />
-                <Button text="Sửa" onAction="#update" />
-                <Button text="Xóa" onAction="#delete" />
+                <Button fx:id="btnThem" text="Thêm" onAction="#add" />
+                <Button fx:id="btnSua" text="Sửa" onAction="#update" />
+                <Button fx:id="btnXoa" text="Xóa" onAction="#delete" />
             </HBox>
             <HBox spacing="10" style="-fx-border-color: #e0e0e0; -fx-border-width: 1 0 0 0; -fx-padding: 10 0 0 0;">
                 <padding>

@@ -8,6 +8,7 @@
     <top>
         <HBox spacing="10" style="-fx-padding: 10; -fx-background-color: #34495e;">
             <Label fx:id="lblUser" text="Guest" style="-fx-text-fill: white; -fx-font-size: 14px;" />
+            <Button text="Logout" fx:id="btnLogout" onAction="#logout" style="-fx-background-color: #e74c3c; -fx-text-fill: white;" />
         </HBox>
     </top>
     <left>

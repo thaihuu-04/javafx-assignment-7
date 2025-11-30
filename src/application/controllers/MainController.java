@@ -1,9 +1,11 @@
 package application.controllers;
 
-import application.models.NguoiDung;
+import application.models.NhanVien;
+import application.utils.UserSession;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.Parent;
 
@@ -11,13 +13,14 @@ public class MainController {
 
     @FXML private BorderPane mainPane;
     @FXML private Label lblUser;
+    @FXML private Button btnLogout;
 
-    private NguoiDung currentUser;
+    private NhanVien currentUser;
 
-    public void setCurrentUser(NguoiDung user) {
+    public void setCurrentUser(NhanVien user) {
         this.currentUser = user;
         if (user != null) {
-            lblUser.setText("Xin chào: " + user.getTenDangNhap() + " (" + user.getVaiTro() + ")");
+            lblUser.setText("Xin chào: " + user.getUsername() + " (" + user.getVaiTro() + ")");
         }
         showDuAn();
     }
@@ -38,8 +41,14 @@ public class MainController {
     private void showThongKe() { loadCenter("/application/views/thongke.fxml"); }
 
     @FXML
-    private void logout() {
-        loadCenter("/application/views/login.fxml");
+    public void logout() {
+        UserSession.clear();
+        try {
+            Parent login = FXMLLoader.load(getClass().getResource("/application/views/login.fxml"));
+            mainPane.getScene().setRoot(login);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         lblUser.setText("Guest");
     }
 

@@ -24,6 +24,9 @@ public class NhanVienDAO {
                 nv.setChucVu(rs.getString("ChucVu"));
                 nv.setEmail(rs.getString("Email"));
                 nv.setDienThoai(rs.getString("DienThoai"));
+                nv.setUsername(rs.getString("Username"));
+                nv.setMatKhau(rs.getString("MatKhau"));
+                nv.setVaiTro(rs.getString("VaiTro"));
                 list.add(nv);
             }
         } catch (Exception e) { e.printStackTrace(); }

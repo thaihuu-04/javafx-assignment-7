@@ -18,9 +18,9 @@
             <DatePicker fx:id="dpKT" promptText="Ngày kết thúc" />
             <ComboBox fx:id="cboTrangThai" promptText="Trạng thái" />
             <Slider fx:id="sliderTienDo" min="0" max="100" prefWidth="140" />
-            <Button text="Thêm" onAction="#add" />
-            <Button text="Sửa" onAction="#update" />
-            <Button text="Xóa" onAction="#delete" />
+            <Button fx:id="btnThem" text="Thêm" onAction="#add" />
+            <Button fx:id="btnSua" text="Sửa" onAction="#update" />
+            <Button fx:id="btnXoa" text="Xóa" onAction="#delete" />
         </HBox>
     </top>
 

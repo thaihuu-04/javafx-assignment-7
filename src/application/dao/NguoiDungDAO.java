@@ -37,3 +37,5 @@ public class NguoiDungDAO {
         return null;
     }
 }
+
+// File này không còn sử dụng, có thể xóa bỏ hoàn toàn.

@@ -10,6 +10,7 @@
     <VBox spacing="15" alignment="CENTER" layoutX="50" layoutY="30" prefWidth="300">
         <Label text="ĐĂNG NHẬP" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
 
+        <ComboBox fx:id="cboUserType" promptText="Chọn loại user" prefWidth="200" />
         <TextField fx:id="txtUsername" promptText="Tên đăng nhập" text="admin" />
         <PasswordField fx:id="txtPassword" promptText="Mật khẩu" text="admin123" />
 

@@ -6,6 +6,7 @@ import application.dao.NhanVienDAO;
 import application.models.DuAn;
 import application.models.NhanVien;
 import application.utils.AlertUtil;
+import application.utils.UserSession;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -33,6 +34,8 @@ public class DuAnController {
     @FXML private TextField txtTim;
     @FXML private ComboBox<String> cboLocTrangThai;
     @FXML private ComboBox<NhanVien> cboLocQuanLy;
+
+    @FXML private Button btnThem, btnSua, btnXoa;
 
     private DuAnDAO duAnDAO = new DuAnDAO();
     private CongViecDAO congViecDAO = new CongViecDAO();
@@ -67,6 +70,19 @@ public class DuAnController {
         
         // Add listener for table row click
         tableDuAn.setOnMouseClicked(event -> onTableClick());
+        
+        // Phân quyền cho Nhân viên chỉ được xem
+        String vaiTro = UserSession.getVaiTro();
+        if (vaiTro != null && vaiTro.equals("Nhân Viên")) {
+            txtTenDA.setDisable(true);
+            dpBD.setDisable(true);
+            dpKT.setDisable(true);
+            cboTrangThai.setDisable(true);
+            cboQuanLy.setDisable(true);
+            btnThem.setVisible(false);
+            btnSua.setVisible(false);
+            btnXoa.setVisible(false);
+        }
     }
 
     private void loadData() {
@@ -80,6 +96,11 @@ public class DuAnController {
 
     @FXML
     private void add() {
+        String vaiTro = UserSession.getVaiTro();
+        if (vaiTro != null && vaiTro.equals("Nhân Viên")) {
+            AlertUtil.warning("Phân quyền", "Bạn không có quyền thêm dự án");
+            return;
+        }
         try {
             // Reset form
             if (selectedDuAn != null) {
@@ -110,6 +131,12 @@ public class DuAnController {
 
     @FXML
     private void update() {
+        String vaiTro = UserSession.getVaiTro();
+        System.out.println("Vai trò hiện tại: " + vaiTro); // Debug line
+        if (vaiTro != null && vaiTro.equals("Nhân Viên")) {
+            AlertUtil.warning("Phân quyền", "Bạn không có quyền sửa dự án");
+            return;
+        }
         if (selectedDuAn == null) { 
             AlertUtil.warning("Chọn", "Vui lòng chọn dự án để sửa"); 
             return; 
@@ -137,6 +164,11 @@ public class DuAnController {
 
     @FXML
     private void delete() {
+        String vaiTro = UserSession.getVaiTro();
+        if (vaiTro != null && vaiTro.equals("Nhân Viên")) {
+            AlertUtil.warning("Phân quyền", "Bạn không có quyền xóa dự án");
+            return;
+        }
         DuAn sel = tableDuAn.getSelectionModel().getSelectedItem();
         if (sel == null) { AlertUtil.warning("Chọn", "Vui lòng chọn dự án để xoá"); return; }
         boolean ok = duAnDAO.delete(sel.getMaDA());

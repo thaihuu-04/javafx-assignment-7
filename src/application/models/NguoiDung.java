@@ -9,3 +9,5 @@ public class NguoiDung {
     public String getMatKhau(){return matKhau;} public void setMatKhau(String v){matKhau=v;}
     public String getVaiTro(){return vaiTro;} public void setVaiTro(String v){vaiTro=v;}
 }
+
+// File này không còn sử dụng, có thể xóa bỏ hoàn toàn.

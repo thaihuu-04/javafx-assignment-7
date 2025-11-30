@@ -116,7 +116,7 @@ public class CongViecController {
                 btnSua.setVisible(true);
                 btnXoa.setVisible(true);
                 break;
-            case "Nhân viên":
+            case "Nhân Viên":
                 btnThem.setVisible(false);
                 btnSua.setVisible(false);
                 btnXoa.setVisible(false);
@@ -126,6 +126,16 @@ public class CongViecController {
         loadAllByRole();
 
         loadAll();
+
+        if (vaiTro != null && vaiTro.equals("Nhân Viên")) {
+            cboDuAn.setDisable(true);
+            cboNhanVien.setDisable(true);
+            txtTenCV.setDisable(true);
+            dpBD.setDisable(true);
+            dpKT.setDisable(true);
+            cboTrangThai.setDisable(true);
+            sliderTienDo.setDisable(true);
+        }
     }
 
     private void loadAll() {
@@ -154,8 +164,10 @@ public class CongViecController {
                 }
                 break;
             case "Nhân viên":
-                for (CongViec cv : all) {
-                    if (cv.getMaNV() == maNV) filtered.add(cv);
+                if (maNV != null) {
+                    for (CongViec cv : all) {
+                        if (cv.getMaNV() == maNV.intValue()) filtered.add(cv);
+                    }
                 }
                 break;
         }
