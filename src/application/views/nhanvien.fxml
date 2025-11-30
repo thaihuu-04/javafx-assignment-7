@@ -15,9 +15,11 @@
                 <TextField fx:id="txtTen" promptText="Tên nhân viên" />
                 <ComboBox fx:id="cboChucVu" promptText="Chức vụ" />
                 <TextField fx:id="txtEmail" promptText="Email" />
-                <Button text="Thêm" onAction="#add" />
-                <Button text="Sửa" onAction="#update" />
-                <Button text="Xóa" onAction="#delete" />
+                <TextField fx:id="txtUsername" promptText="Username" />
+                <PasswordField fx:id="txtPassword" promptText="Password" />
+                <Button fx:id="btnThem" text="Thêm" onAction="#add" />
+                <Button fx:id="btnSua" text="Sửa" onAction="#update" />
+                <Button fx:id="btnXoa" text="Xóa" onAction="#delete" />
             </HBox>
             <HBox spacing="10" style="-fx-border-color: #e0e0e0; -fx-border-width: 1 0 0 0; -fx-padding: 10 0 0 0;">
                 <padding>
@@ -39,6 +41,8 @@
                 <TableColumn fx:id="colTen" text="Tên" prefWidth="160" />
                 <TableColumn fx:id="colChucVu" text="Chức vụ" prefWidth="120" />
                 <TableColumn fx:id="colEmail" text="Email" prefWidth="200" />
+                <TableColumn fx:id="colUsername" text="Username" prefWidth="120" />
+                <TableColumn fx:id="colPassword" text="Password" prefWidth="120" visible="false" />
             </columns>
         </TableView>
     </center>

@@ -100,9 +100,32 @@ public class CongViecController {
 
         // Lấy vai trò từ UserSession
         String vaiTro = UserSession.getVaiTro();
-        Integer maNV = UserSession.getMaNV();
         String tenDangNhap = UserSession.getTenDangNhap();
-
+        Integer maNV = UserSession.getMaNV();
+        if (vaiTro != null && vaiTro.equals("PM")) {
+            // Lấy danh sách dự án mà PM quản lý
+            List<DuAn> duAnPM = duAnDAO.getAllByManager(tenDangNhap);
+            cboDuAn.setItems(FXCollections.observableArrayList(duAnPM));
+            // Lấy danh sách nhân viên liên quan đến các dự án PM quản lý
+            List<NhanVien> nhanVienDuAn = new ArrayList<>();
+            for (DuAn da : duAnPM) {
+                List<NhanVien> nvs = nhanVienDAO.getByProject(da.getMaDA());
+                for (NhanVien nv : nvs) {
+                    if (!nhanVienDuAn.contains(nv)) nhanVienDuAn.add(nv);
+                }
+            }
+            cboNhanVien.setItems(FXCollections.observableArrayList(nhanVienDuAn));
+            cboSearchNhanVien.setItems(FXCollections.observableArrayList(nhanVienDuAn));
+            // Chỉ hiển thị công việc thuộc dự án PM quản lý
+            List<CongViec> allCV = congViecDAO.getAll();
+            List<Integer> maDAList = new ArrayList<>();
+            for (DuAn da : duAnPM) maDAList.add(da.getMaDA());
+            List<CongViec> filteredCV = new ArrayList<>();
+            for (CongViec cv : allCV) {
+                if (maDAList.contains(cv.getMaDA())) filteredCV.add(cv);
+            }
+            tableCV.setItems(FXCollections.observableArrayList(filteredCV));
+        }
         // Phân quyền hiển thị nút chức năng
         if (vaiTro == null) return;
         switch (vaiTro) {

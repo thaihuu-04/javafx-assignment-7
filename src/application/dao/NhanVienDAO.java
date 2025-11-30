@@ -117,4 +117,27 @@ public class NhanVienDAO {
         } catch (Exception e) { e.printStackTrace(); }
         return list;
     }
+
+    public List<NhanVien> getByProject(int maDA) {
+        List<NhanVien> list = new ArrayList<>();
+        String sql = "SELECT nv.* FROM NhanVien nv JOIN PhanCong pc ON nv.MaNV = pc.MaNV WHERE pc.MaDA = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, maDA);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                NhanVien nv = new NhanVien();
+                nv.setMaNV(rs.getInt("MaNV"));
+                nv.setHoTen(rs.getString("HoTen"));
+                nv.setChucVu(rs.getString("ChucVu"));
+                nv.setEmail(rs.getString("Email"));
+                nv.setDienThoai(rs.getString("DienThoai"));
+                nv.setUsername(rs.getString("Username"));
+                nv.setMatKhau(rs.getString("MatKhau"));
+                nv.setVaiTro(rs.getString("VaiTro"));
+                list.add(nv);
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+        return list;
+    }
 }
